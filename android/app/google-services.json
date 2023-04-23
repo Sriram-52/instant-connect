@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "159382854534",
+    "project_id": "instant-connect-376cc",
+    "storage_bucket": "instant-connect-376cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159382854534:android:5e97d1db73e18e27e06a07",
+        "android_client_info": {
+          "package_name": "com.example.instantconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159382854534-dah4u80r0d2bpomtafak6s3mush4juep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.instantconnect",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "159382854534-nkvqf59m6is2jjivjghcvdc45dcd317i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCevVmHqjBB6Z2n3sPjYSk_HvN3j98QS38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159382854534-nkvqf59m6is2jjivjghcvdc45dcd317i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "159382854534-vbd0hbf8rg4es19u9l8dts3fifkm2i9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instantconnect"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

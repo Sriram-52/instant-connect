@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>159382854534-vbd0hbf8rg4es19u9l8dts3fifkm2i9n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.159382854534-vbd0hbf8rg4es19u9l8dts3fifkm2i9n</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>159382854534-dah4u80r0d2bpomtafak6s3mush4juep.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCocvJR-RqTQa9_cKj4B3zUSt_6Ib1qyzU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>159382854534</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.instantconnect</string>
+	<key>PROJECT_ID</key>
+	<string>instant-connect-376cc</string>
+	<key>STORAGE_BUCKET</key>
+	<string>instant-connect-376cc.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:159382854534:ios:7b8d45917a9c393ee06a07</string>
+</dict>
+</plist>
