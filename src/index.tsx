@@ -1,22 +1,23 @@
 import * as React from "react";
-import { Text, View } from "react-native";
 import auth from "@react-native-firebase/auth";
 import LoginScreen from "./screens/LoginScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RegisterScreen from "./screens/Regsitration";
+import RegisterScreen from "./screens/RegisterScreen";
+import { RootStackParamList } from "./types";
 
 export default function AppContainer() {
   const user = auth().currentUser;
-  const Stack = createNativeStackNavigator();
+  const RootStack = createNativeStackNavigator<RootStackParamList>();
+
   return (
-    <Stack.Navigator
+    <RootStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
       initialRouteName="Login"
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-    </Stack.Navigator>
+      <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen name="Register" component={RegisterScreen} />
+    </RootStack.Navigator>
   );
 }

@@ -1,9 +1,20 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaView, ScrollView, View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { useUserControllerCreate } from "../api/services/base/users";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types";
 
-const RegisterScreen = (): JSX.Element => {
+type RegisterScreenRouteProp = NativeStackNavigationProp<RootStackParamList, "Register", undefined>;
+
+const Register = ({ navigation }: { navigation: RegisterScreenRouteProp }): JSX.Element => {
   const [fullName, setFullName] = React.useState<string>("");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
@@ -33,7 +44,7 @@ const RegisterScreen = (): JSX.Element => {
           name: "",
         });
 
-        // navigate("/login");
+        navigation.navigate("Login");
       },
     },
   });
@@ -152,7 +163,7 @@ const RegisterScreen = (): JSX.Element => {
   );
 };
 
-export default RegisterScreen;
+export default Register;
 
 const styles = StyleSheet.create({
   heading: {

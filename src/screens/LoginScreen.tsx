@@ -1,67 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, Easing } from "react-native";
-import { Appbar, TextInput } from "react-native-paper";
-import Lottie from "lottie-react-native";
+import React from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types";
+import Login from "../components/Login";
 
-const LoginScreen = ({ navigation }: { navigation: any }) => {
-  const [text, setText] = React.useState("");
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
-  return (
-    <>
-      <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
-        <Lottie
-          style={{ height: 300, width: 300, marginLeft: 15 }}
-          source={require("../assets/login.json")}
-          autoPlay
-        />
-        <Text style={{ color: "#000", fontSize: 40, fontWeight: "bold" }}>Log In</Text>
-        <Text style={{ color: "#808080", fontSize: 18, marginVertical: 5 }}>
-          Enter Your Details to Login
-        </Text>
-        <View style={{ marginVertical: 20 }}>
-          <TextInput
-            style={{ marginBottom: 20 }}
-            label="Email"
-            value={text}
-            onChangeText={(text) => setText(text)}
-          />
-          <TextInput
-            style={{ marginBottom: 20 }}
-            label="Password"
-            value={text}
-            onChangeText={(text) => setText(text)}
-          />
-          <TouchableOpacity
-            onPress={() => {}}
-            activeOpacity={0.7}
-            style={{
-              height: 55,
-              width: "100%",
-              backgroundColor: "#663399",
-              marginVertical: 20,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>Log In</Text>
-          </TouchableOpacity>
-          <Text
-            onPress={() => {
-              navigation.navigate("Register");
-            }}
-            style={{
-              color: "#000",
-              fontWeight: "bold",
-              textAlign: "center",
-              fontSize: 16,
-            }}
-          >
-            Don't have account ?Register
-          </Text>
-        </View>
-      </View>
-    </>
-  );
-};
-
-export default LoginScreen;
+export default function LoginScreen({ navigation }: Props) {
+  return <Login navigation={navigation} />;
+}
