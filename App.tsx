@@ -1,11 +1,23 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AppContainer from "./src";
+import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from "react-native-paper";
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "tomato",
+    secondary: "yellow",
+  },
+};
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AppContainer />
-    </NavigationContainer>
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
+        <AppContainer />
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
