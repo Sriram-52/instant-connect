@@ -1,18 +1,33 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { TextInput } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
+import { useAuthContext } from "../context/AuthContext";
 
 type LoginScreenRouteProp = NativeStackNavigationProp<RootStackParamList, "Login", undefined>;
 
 const Login = ({ navigation }: { navigation: LoginScreenRouteProp }) => {
-  const [text, setText] = React.useState("");
+  const { login } = useAuthContext();
+
+  const [formData, setFormData] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    const { email, password } = formData;
+    await login(email, password);
+  };
 
   return (
     <>
-      <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
+      <ScrollView style={{ paddingTop: 20, paddingHorizontal: 20 }}>
         <Lottie
           style={{ height: 300, width: 300, marginLeft: 15 }}
           source={require("../assets/login.json")}
@@ -26,17 +41,18 @@ const Login = ({ navigation }: { navigation: LoginScreenRouteProp }) => {
           <TextInput
             style={{ marginBottom: 20 }}
             label="Email"
-            value={text}
-            onChangeText={(text) => setText(text)}
+            value={formData.email}
+            onChangeText={(text) => handleChange("email", text)}
           />
           <TextInput
             style={{ marginBottom: 20 }}
             label="Password"
-            value={text}
-            onChangeText={(text) => setText(text)}
+            secureTextEntry
+            value={formData.password}
+            onChangeText={(text) => handleChange("password", text)}
           />
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={handleSubmit}
             activeOpacity={0.7}
             style={{
               height: 55,
@@ -63,7 +79,7 @@ const Login = ({ navigation }: { navigation: LoginScreenRouteProp }) => {
             Don't have account ?Register
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </>
   );
 };
