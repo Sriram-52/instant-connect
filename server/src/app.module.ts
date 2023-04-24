@@ -5,9 +5,10 @@ import { UsersService } from './users/users.service';
 import { UserController } from './users/user.controller';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { StreamChatModule } from './stream-chat/stream-chat.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UsersModule],
+  imports: [ConfigModule.forRoot(), UsersModule, StreamChatModule],
   controllers: [AppController, UserController],
   providers: [AppService, UsersService],
 })

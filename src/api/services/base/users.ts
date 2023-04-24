@@ -14,7 +14,7 @@ import type {
   UseQueryResult,
   QueryKey,
 } from "@tanstack/react-query";
-import type { User, CreateUserDto, UpdateUserDto } from "./models";
+import type { User, CreateUserDto, UpdateUserDto, CreateChannelDto } from "./models";
 import { baseInstance } from "../../instances/baseInstance";
 import type { ErrorType } from "../../instances/baseInstance";
 
@@ -177,6 +177,116 @@ export const useUserControllerUpdate = <TError = ErrorType<unknown>, TContext = 
   >;
 }) => {
   const mutationOptions = getUserControllerUpdateMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const userControllerGetToken = (id: string, signal?: AbortSignal) => {
+  return baseInstance<string>({ url: `/users/${id}/token`, method: "get", signal });
+};
+
+export const getUserControllerGetTokenQueryKey = (id: string) => [`/users/${id}/token`] as const;
+
+export const getUserControllerGetTokenQueryOptions = <
+  TData = Awaited<ReturnType<typeof userControllerGetToken>>,
+  TError = ErrorType<unknown>
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof userControllerGetToken>>, TError, TData>;
+  }
+): UseQueryOptions<Awaited<ReturnType<typeof userControllerGetToken>>, TError, TData> & {
+  queryKey: QueryKey;
+} => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getUserControllerGetTokenQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerGetToken>>> = ({ signal }) =>
+    userControllerGetToken(id, signal);
+
+  return { queryKey, queryFn, enabled: !!id, ...queryOptions };
+};
+
+export type UserControllerGetTokenQueryResult = NonNullable<
+  Awaited<ReturnType<typeof userControllerGetToken>>
+>;
+export type UserControllerGetTokenQueryError = ErrorType<unknown>;
+
+export const useUserControllerGetToken = <
+  TData = Awaited<ReturnType<typeof userControllerGetToken>>,
+  TError = ErrorType<unknown>
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof userControllerGetToken>>, TError, TData>;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getUserControllerGetTokenQueryOptions(id, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const userControllerCreateChannel = (id: string, createChannelDto: CreateChannelDto) => {
+  return baseInstance<string>({
+    url: `/users/${id}/create-channel`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    data: createChannelDto,
+  });
+};
+
+export const getUserControllerCreateChannelMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof userControllerCreateChannel>>,
+    TError,
+    { id: string; data: CreateChannelDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof userControllerCreateChannel>>,
+  TError,
+  { id: string; data: CreateChannelDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof userControllerCreateChannel>>,
+    { id: string; data: CreateChannelDto }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return userControllerCreateChannel(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UserControllerCreateChannelMutationResult = NonNullable<
+  Awaited<ReturnType<typeof userControllerCreateChannel>>
+>;
+export type UserControllerCreateChannelMutationBody = CreateChannelDto;
+export type UserControllerCreateChannelMutationError = ErrorType<unknown>;
+
+export const useUserControllerCreateChannel = <
+  TError = ErrorType<unknown>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof userControllerCreateChannel>>,
+    TError,
+    { id: string; data: CreateChannelDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = getUserControllerCreateChannelMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

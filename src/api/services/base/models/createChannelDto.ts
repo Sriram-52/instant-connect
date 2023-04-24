@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from "./createChannelDto";
-export * from "./createUserDto";
-export * from "./updateUserDto";
-export * from "./user";
+export interface CreateChannelDto {
+  members: string[];
+}

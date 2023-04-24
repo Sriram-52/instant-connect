@@ -7,9 +7,12 @@ import * as admin from 'firebase-admin';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { StreamChatService } from 'src/stream-chat/stream-chat.service';
 
 @Injectable()
 export class UsersService {
+  constructor(private _streamChatService: StreamChatService) {}
+
   async findAll(): Promise<User[]> {
     const ref = admin.firestore().collection('users');
     const snapshot = await ref.get();
@@ -33,6 +36,11 @@ export class UsersService {
       updatedAt: null,
     };
 
+    await this._streamChatService.createUser({
+      id: user.id,
+      name,
+    });
+
     const ref = admin.firestore().collection('users').doc(userRecord.uid);
     await ref.set(user);
 
@@ -53,6 +61,10 @@ export class UsersService {
       await ref.update({ email });
     }
 
+    await this._streamChatService.updateUser(id, {
+      name,
+    });
+
     if (name || email) {
       await ref.update({ updatedAt: new Date().toISOString() });
     }
@@ -61,5 +73,14 @@ export class UsersService {
     const user: User = User.fromJson(snapshot.data());
 
     return user;
+  }
+
+  async getToken(id: string) {
+    return this._streamChatService.createToken(id);
+  }
+
+  async createChannel(id: string, members: string[]) {
+    const channel = await this._streamChatService.createChannel(id, members);
+    return channel.cid;
   }
 }

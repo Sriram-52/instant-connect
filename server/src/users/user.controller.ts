@@ -8,6 +8,7 @@ import { UsersService } from './users.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateChannelDto } from './dto/create-channel.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -42,5 +43,28 @@ export class UserController {
   @Put(':id/update')
   update(@Param('id') id: string, @Body() body: UpdateUserDto): Promise<User> {
     return this._service.updateUser(id, body);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'Token retrieved successfully.',
+    type: String,
+  })
+  @Get(':id/token')
+  getToken(@Param('id') id: string): Promise<string> {
+    return this._service.getToken(id);
+  }
+
+  @ApiResponse({
+    status: 201,
+    description: 'Channel created successfully.',
+    type: String,
+  })
+  @Post(':id/create-channel')
+  createChannel(
+    @Param('id') id: string,
+    @Body() body: CreateChannelDto,
+  ): Promise<string> {
+    return this._service.createChannel(id, body.members);
   }
 }

@@ -12,7 +12,7 @@ const commonHooks = {
   afterAllFilesWrite: "prettier --write",
 };
 
-const BASE_URL = "http://localhost:5001";
+const BASE_URL = "http://10.0.0.166:5001";
 
 const instanceTemplate = `import Axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { environment } from "../../environment";
@@ -46,8 +46,8 @@ const services = [{ name: "base", baseUrl: BASE_URL }];
 // Create .env
 fs.writeFileSync(
   "./.env",
-  `VITE_API_URL=${BASE_URL}
-VITE_API_KEY=sfxgknjtwe9a`
+  `BASE_API=${BASE_URL}
+API_KEY=wz5hamfyne39`
 );
 
 // Create Instances folder

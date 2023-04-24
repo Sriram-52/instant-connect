@@ -1,4 +1,5 @@
-import ChatScreen from "./screens/ChatScreen";
+import ChannelListScreen from "./screens/ChannelListScreen";
+import ChannelScreen from "./screens/ChannelScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import type { RootStackParamList } from "./types";
@@ -24,7 +25,11 @@ export const unProtectedRoutes: Route[] = [
 
 export const protectedRoutes: Route[] = [
   {
-    name: "Home",
-    Component: ChatScreen,
+    name: "ChannelList",
+    Component: ChannelListScreen,
+  },
+  {
+    name: "Channel",
+    Component: ChannelScreen,
   },
 ];

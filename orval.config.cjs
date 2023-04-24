@@ -14,7 +14,7 @@ module.exports = {
       }
     },
     "input": {
-      "target": "http://localhost:5001/docs-json"
+      "target": "http://10.0.0.166:5001/docs-json"
     },
     "hooks": {
       "afterAllFilesWrite": "prettier --write"
