@@ -2,7 +2,7 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   ChannelList: undefined;
-  Channel: { channelId: string };
+  Channel: { channelId: string; channelName?: string };
 };
 
 type LocalAttachmentType = Record<string, unknown>;
