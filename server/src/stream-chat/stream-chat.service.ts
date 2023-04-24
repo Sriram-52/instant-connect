@@ -6,7 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 import * as admin from 'firebase-admin';
-import { StreamChat } from 'stream-chat';
+import { ChannelSort, StreamChat } from 'stream-chat';
 
 @Injectable()
 export class StreamChatService {
@@ -39,10 +39,40 @@ export class StreamChatService {
     return this.client.createToken(userId);
   }
 
-  async createChannel(userId: string, members: string[]) {
+  async getChannels(userID: string) {
+    const filters = {
+      type: 'messaging',
+      members: { $in: [userID] },
+    };
+    const sort: ChannelSort = { last_message_at: -1 };
+    const channels = await this.client.queryChannels(filters, sort);
+    return channels;
+  }
+
+  async createChannel(userId: string, newUsers: string[]) {
+    if (newUsers.length !== 1) {
+      throw new Error('Too many users');
+    }
+
     const ref = admin.firestore().collection('channels').doc();
+    const userChannels = await this.getChannels(userId);
+    const otherUserId = newUsers[0];
+
+    const existingChannel = userChannels?.find((channel) => {
+      const members = Object.values(channel.state.members);
+      return (
+        members.length === 2 &&
+        members.some((member) => member.user?.id === userId) &&
+        members.some((member) => member.user?.id === otherUserId)
+      );
+    });
+
+    if (existingChannel) {
+      return existingChannel;
+    }
+
     const channel = this.client.channel('messaging', ref.id, {
-      members: [...members, userId],
+      members: [otherUserId, userId],
       created_by: { id: userId },
     });
     await channel.create();

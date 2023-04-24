@@ -46,14 +46,17 @@ function MainContainer() {
 
   return (
     <StreamChatContextProvider>
-      <RootStack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName="ChannelList"
-      >
+      <RootStack.Navigator initialRouteName="ChannelList">
         {protectedRoutes.map((route) => (
-          <RootStack.Screen key={route.name} name={route.name} component={route.Component} />
+          <RootStack.Screen
+            key={route.name}
+            name={route.name}
+            component={route.Component}
+            options={{
+              headerShown: route.header !== undefined,
+              header: route.header,
+            }}
+          />
         ))}
       </RootStack.Navigator>
     </StreamChatContextProvider>

@@ -81,6 +81,6 @@ export class UsersService {
 
   async createChannel(id: string, members: string[]) {
     const channel = await this._streamChatService.createChannel(id, members);
-    return channel.cid;
+    return channel.id;
   }
 }

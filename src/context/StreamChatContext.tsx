@@ -13,6 +13,7 @@ type StreamChatContextType = {
     React.SetStateAction<ThreadContextValue<StreamChatGenerics>["thread"] | undefined>
   >;
   thread: ThreadContextValue<StreamChatGenerics>["thread"] | undefined;
+  setChannelByChannelId: (channelId: string) => Promise<ChannelType | undefined>;
 };
 
 export const StreamChatContext = createContext<StreamChatContextType | null>(null);
@@ -26,10 +27,22 @@ export const useStreamChatContext = () => {
 };
 
 function StreamChatContextProvider({ children }: { children: React.ReactNode }) {
-  const [channel, setChannel] = useState<any>(null);
-  const [thread, setThread] = useState<any>(null);
+  const [channel, setChannel] = useState<ChannelType<StreamChatGenerics> | undefined>(undefined);
+  const [thread, setThread] = useState<
+    ThreadContextValue<StreamChatGenerics>["thread"] | undefined
+  >(undefined);
 
   const { clientIsReady } = useChatClient();
+
+  const chatClient = StreamChat.getInstance(environment.apiKey);
+
+  const setChannelByChannelId = async (channelId: string) => {
+    const channel = await chatClient.queryChannels({ id: channelId });
+    if (channel.length > 0) {
+      setChannel(channel[0]);
+      return channel[0];
+    }
+  };
 
   const value = useMemo((): StreamChatContextType => {
     return {
@@ -37,14 +50,13 @@ function StreamChatContextProvider({ children }: { children: React.ReactNode }) 
       setChannel,
       thread,
       setThread,
+      setChannelByChannelId,
     };
   }, [channel, thread]);
 
   if (!clientIsReady) {
     return <Text>Loading...</Text>;
   }
-
-  const chatClient = StreamChat.getInstance(environment.apiKey);
 
   return (
     <StreamChatContext.Provider value={value}>

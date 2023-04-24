@@ -6,15 +6,22 @@ import {
 } from "../api/services/base/users";
 import { Divider, List } from "react-native-paper";
 import { useAuthContext } from "../context/AuthContext";
+import { useStreamChatContext } from "../context/StreamChatContext";
+import { Channel } from "stream-chat";
 
-export default function NewChat({ onCreated }: { onCreated: (channelId: string) => void }) {
+export default function NewChat({ onCreated }: { onCreated: (channel: Channel) => void }) {
   const { user: loggedInUser } = useAuthContext();
+  const { setChannelByChannelId } = useStreamChatContext();
   const { data } = useUserControllerGetAll();
 
   const useCreateChannel = useUserControllerCreateChannel({
     mutation: {
-      onSuccess(channelId) {
-        onCreated(channelId);
+      async onSuccess(channelId) {
+        const channel = await setChannelByChannelId(channelId);
+        if (!channel) {
+          return;
+        }
+        onCreated(channel);
       },
     },
   });
@@ -34,17 +41,18 @@ export default function NewChat({ onCreated }: { onCreated: (channelId: string) 
   return (
     <List.Section>
       <ScrollView>
-        {data?.map((user, index) => (
-          <>
-            <List.Item
-              key={user.id}
-              title={user.name}
-              description={user.email}
-              onPress={() => createChannel(user.id)}
-            />
-            {index < data.length - 1 && <Divider />}
-          </>
-        ))}
+        {data
+          ?.filter((user) => user.id !== loggedInUser?.id)
+          .map((user, index) => (
+            <React.Fragment key={user.id}>
+              <List.Item
+                title={user.name}
+                description={user.email}
+                onPress={() => createChannel(user.id)}
+              />
+              {index < data.length - 1 && <Divider />}
+            </React.Fragment>
+          ))}
       </ScrollView>
     </List.Section>
   );

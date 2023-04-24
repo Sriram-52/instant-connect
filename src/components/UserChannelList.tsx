@@ -1,7 +1,7 @@
 import React from "react";
 import { ChannelList } from "stream-chat-react-native";
 import { useAuthContext } from "../context/AuthContext";
-import { ChannelFilters, ChannelSort } from "stream-chat";
+import { ChannelFilters, ChannelSort, Channel } from "stream-chat";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { useStreamChatContext } from "../context/StreamChatContext";
@@ -26,15 +26,25 @@ export default function UserChannelList({ navigation }: { navigation: RouteProp 
     last_message_at: -1,
   };
 
+  const onChannelSelect = (channel: Channel) => {
+    const members = channel.state.members;
+    const memberIds = Object.keys(members);
+    const otherMemberId = memberIds.find((id) => id !== user?.id);
+    if (otherMemberId) {
+      const otherMember = members[otherMemberId];
+      navigation.navigate("Channel", {
+        channelId: channel.id ?? "",
+        channelName: otherMember.user?.name,
+      });
+    }
+  };
+
   return (
     <>
       {showNewChat ? (
         <NewChat
-          onCreated={(channelId) => {
-            navigation.navigate("Channel", {
-              channelId,
-              channelName: "New Chat",
-            });
+          onCreated={(channel) => {
+            onChannelSelect(channel);
             setShowNewChat(false);
           }}
         />
@@ -44,17 +54,8 @@ export default function UserChannelList({ navigation }: { navigation: RouteProp 
           sort={sort}
           onSelect={(channel) => {
             if (channel.id) {
-              const members = channel.state.members;
-              const memberIds = Object.keys(members);
-              const otherMemberId = memberIds.find((id) => id !== user?.id);
-              if (otherMemberId) {
-                const otherMember = members[otherMemberId];
-                navigation.navigate("Channel", {
-                  channelId: channel.id,
-                  channelName: otherMember.user?.name,
-                });
-                setChannel(channel);
-              }
+              setChannel(channel);
+              onChannelSelect(channel);
             }
           }}
         />
