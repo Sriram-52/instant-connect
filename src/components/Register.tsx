@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, ScrollView, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
+
 import { useUserControllerCreate } from "../api/services/base/users";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
+import Lottie from "lottie-react-native";
 
 type RegisterScreenRouteProp = NativeStackNavigationProp<RootStackParamList, "Register", undefined>;
 
@@ -104,12 +99,17 @@ const Register = ({ navigation }: { navigation: RegisterScreenRouteProp }): JSX.
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 25 }}>
+        <Lottie
+          style={{ height: 300, width: 300, marginLeft: 15 }}
+          source={require("../assets/register.json")}
+          autoPlay
+        />
         <Text style={styles.heading}>Register</Text>
         <View style={styles.input}>
           <TextInput
             onChangeText={(text) => setFullName(text)}
             placeholder={"Full Name"}
-            style={{ flex: 1, paddingVertical: 0 }}
+            style={{ flex: 1 }}
             secureTextEntry={false}
           />
         </View>
@@ -140,24 +140,30 @@ const Register = ({ navigation }: { navigation: RegisterScreenRouteProp }): JSX.
         </View>
         <TouchableOpacity
           onPress={handleSubmit}
+          activeOpacity={0.7}
           style={{
-            backgroundColor: "#AD40AF",
-            padding: 20,
-            borderRadius: 10,
+            height: 55,
+            width: "100%",
+            backgroundColor: "#663399",
+            marginVertical: 20,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>Register</Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
             marginBottom: 30,
           }}
         >
-          <Text
-            style={{
-              textAlign: "center",
-              fontWeight: "700",
-              fontSize: 16,
-              color: "#fff",
-            }}
-          >
-            Register
-          </Text>
-        </TouchableOpacity>
+          <Text>Already registered?</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={{ color: "#663399", fontWeight: "700" }}> Login</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -167,18 +173,11 @@ export default Register;
 
 const styles = StyleSheet.create({
   heading: {
-    alignItems: "center",
-    fontFamily: "Roboto-Medium",
-    fontSize: 28,
-    fontWeight: "500",
-    color: "#333",
-    marginBottom: 30,
+    color: "#000",
+    fontSize: 40,
+    fontWeight: "bold",
   },
   input: {
-    flexDirection: "row",
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 1,
-    paddingBottom: 8,
-    marginBottom: 25,
+    marginVertical: 20,
   },
 });
