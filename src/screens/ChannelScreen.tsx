@@ -1,6 +1,6 @@
 import React from "react";
-import MessagePanel from "../components/MessagePanel";
+import SelectedChannel from "../components/SelectedChannel";
 
 export default function ChannelScreen() {
-  return <MessagePanel />;
+  return <SelectedChannel />;
 }
